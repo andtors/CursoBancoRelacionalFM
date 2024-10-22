@@ -41,7 +41,7 @@
       <Atributos>
         <Atributo nome="NOME" id="2">
           <Left Valor="132"/>
-          <Top Valor="198"/>
+          <Top Valor="164"/>
           <Width Valor="56"/>
           <Height Valor="16"/>
           <Fonte default="0">
@@ -78,7 +78,7 @@
         </Atributo>
         <Atributo nome="SEXO" id="5">
           <Left Valor="104"/>
-          <Top Valor="230"/>
+          <Top Valor="196"/>
           <Width Valor="53"/>
           <Height Valor="16"/>
           <Fonte default="0">
@@ -115,7 +115,7 @@
         </Atributo>
         <Atributo nome="CPF" id="8">
           <Left Valor="90"/>
-          <Top Valor="246"/>
+          <Top Valor="212"/>
           <Width Valor="46"/>
           <Height Valor="16"/>
           <Fonte default="0">
@@ -152,7 +152,7 @@
         </Atributo>
         <Atributo nome="ENDERECO" id="11">
           <Left Valor="160"/>
-          <Top Valor="166"/>
+          <Top Valor="132"/>
           <Width Valor="81"/>
           <Height Valor="16"/>
           <Fonte default="0">
@@ -189,7 +189,7 @@
         </Atributo>
         <Atributo nome="EMAIL" id="14">
           <Left Valor="146"/>
-          <Top Valor="182"/>
+          <Top Valor="148"/>
           <Width Valor="57"/>
           <Height Valor="16"/>
           <Fonte default="0">
@@ -226,7 +226,7 @@
         </Atributo>
         <Atributo nome="TELEFONE" id="17">
           <Left Valor="118"/>
-          <Top Valor="214"/>
+          <Top Valor="180"/>
           <Width Valor="77"/>
           <Height Valor="16"/>
           <Fonte default="0">
