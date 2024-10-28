@@ -22,25 +22,46 @@ insert into funcionarios values (8,'Harris','aharris7@ucoz.com','Feminino','Brin
 insert into funcionarios values (9,'James','rjames8@prnewswire.com','Masculino','Joalheria','9/7/2005',108657,'Sales Associate',2);
 /* e demais registros...*/
 
-
 /* 1 */
+SELECT  COUNT(*) FROM FUNCIONARIOS;
+
 /* Quantidade */
+/* Traz todos os departamentos e suas quantidades em ordem crescente */
+SELECT COUNT(*), DEPARTAMENTO
+FROM FUNCIONARIOS
+GROUP BY DEPARTAMENTO
+ORDER BY 1;
+
 SELECT 
     (SELECT COUNT(*) FROM FUNCIONARIOS WHERE DEPARTAMENTO = 'Filmes') AS QNTD_FILMES,
     (SELECT COUNT(*) FROM FUNCIONARIOS WHERE DEPARTAMENTO = 'roupas') AS QNTD_ROUPAS;
 
 /* Funcionarios */
 /* Quantidade */
-SELECT * FROM FUNCIONARIOS WHERE DEPARTAMENTO = 'Filmes' OR DEPARTAMENTO = 'Roupas';
+--Como estamos trabalhando com OR e a segunda condição é opcional
+--colocamos na primeira condição quem tem mais chances de saída
+--verdadeira, pois a segunda condição não será checada nesse caso.
+SELECT * FROM FUNCIONARIOS WHERE DEPARTAMENTO = 'Roupas' OR DEPARTAMENTO = 'Filmes';
 
 /* 2 */
 /* Quantidade*/
-SELECT COUNT(*) AS QNTD_FEM FROM FUNCIONARIOS  WHERE SEXO = 'Feminino' group by SEXO;
+SELECT COUNT(*) AS QNTD_FEM 
+FROM FUNCIONARIOS  
+WHERE SEXO = 'Feminino' 
+GROUP BY SEXO;
 
 /* Funcionarios */
-SELECT * FROM FUNCIONARIOS WHERE (SEXO = 'Feminino' AND DEPARTAMENTO = 'Filmes') OR (SEXO = 'Feminino' AND DEPARTAMENTO = 'Lar');
+--Em situações de AND colocamos em primeira a condição que tem menor quantidade
+SELECT * FROM FUNCIONARIOS
+WHERE 
+(DEPARTAMENTO = 'Filmes' AND SEXO = 'Feminino')
+OR 
+(DEPARTAMENTO = 'Lar' AND SEXO = 'Feminino');
 
 /* 3 */
 /* Funcionarios */
-SELECT * FROM FUNCIONARIOS WHERE SEXO = 'MASCULINO' OR DEPARTAMENTO = 'Jardim';
+SELECT * 
+FROM FUNCIONARIOS 
+WHERE DEPARTAMENTO = 'Jardim'
+OR SEXO = 'MASCULINO'; 
 
