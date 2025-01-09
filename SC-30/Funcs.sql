@@ -11,6 +11,7 @@ para o ordem que deseja  */
                                                           
 /* FUNÇÕES DE AGREGAÇÕES */
 
+
 /* QUERY SIMPLES */      
 
 SELECT * FROM FUNCIONARIOS;
@@ -120,6 +121,17 @@ COEF.VAR = QUANDO ESTÁ MANIPULANDO DADOS DIFERENTE, DESVIP DIVIDO PELA MEDIA MU
 
 */ 
 
+/* Banco de Dados -> 1,2 e 3 Formas normais
+Evitam reduncancia, consequentemente poupam espaço em disco.
+Consomem muito processamento em função de Joins. Queries lentas
+
+Data Science e B.I -> Focam em agregaçoes e performance. Não se 
+preocupam com espaço em disco. Em B.I, modelagem mínima (DW)
+em Data Science, preferencialmente modelagem Colunar */
+
+/* O servidor de maquinas gerou um arquivo de log CSV.
+Vamos importá-lo e analisa-lo dentro do nosso banco */
+
 /* INSERINDO DADOS DE UMA PLANILHA NUMA TABELA */
 
 CREATE TABLE MAQUINAS(
@@ -203,3 +215,67 @@ SELECT MAQUINA,
     FROM MAQUINAS
     GROUP BY MAQUINA
     ORDER BY 4 DESC;
+
+/* DESVIO PADRAO E VARIANCIA */
+
+STDDEV_POP(COLUNA)
+VAR_POP(COLUNA)
+
+SELECT MAQUINA,
+    ROUND(AVG(QTD),2) AS MEDIA,
+    MAX(QTD) AS MAXIMO,
+    MIN(QTD) AS MINIMO,
+    MAX(QTD) - MIN(QTD) AS AMPLITUDE,
+    ROUND(STDDEV_POP(QTD), 2) AS DESV_PAD,
+    ROUND(VAR_POP(QTD), 2) AS VARIANCIA
+    FROM MAQUINAS
+    GROUP BY MAQUINA
+    ORDER BY 4 DESC;
+
+/* CALCULO DE VARIANCIA */
+
+CREATE OR REPLACE FUNCTION _final_median(numeric[])
+   RETURNS numeric AS
+$$
+   SELECT AVG(val)
+   FROM (
+     SELECT val
+     FROM unnest($1) val
+     ORDER BY 1
+     LIMIT  2 - MOD(array_upper($1, 1), 2)
+     OFFSET CEIL(array_upper($1, 1) / 2.0) - 1
+   ) sub;
+$$
+LANGUAGE 'sql' IMMUTABLE;
+
+CREATE AGGREGATE median(numeric) (
+  SFUNC=array_append,
+  STYPE=numeric[],
+  FINALFUNC=_final_median,
+  INITCOND='{}'
+);
+
+SELECT ROUND(MEDIAN(QTD), 2) AS MEDIANA
+FROM MAQUINAS;
+
+SELECT ROUND(MEDIAN(QTD), 2) AS MEDIANA
+FROM MAQUINAS 
+WHERE MAQUINA = 'Maquina 01';
+
+SELECT ROUND(MEDIAN(QTD), 2) AS MEDIANA
+FROM MAQUINAS 
+WHERE MAQUINA = 'Maquina 02';
+
+SELECT ROUND(MEDIAN(QTD), 2) AS MEDIANA
+FROM MAQUINAS 
+WHERE MAQUINA = 'Maquina 03';
+
+INSERT INTO MAQUINAS VALUES('Maquina 01', 11, 15.9);
+INSERT INTO MAQUINAS VALUES('Maquina 02', 11, 15.4);
+INSERT INTO MAQUINAS VALUES('Maquina 03', 11, 15.7);
+INSERT INTO MAQUINAS VALUES('Maquina 01', 12, 12.38);
+INSERT INTO MAQUINAS VALUES('Maquina 02', 12, 12.24);
+INSERT INTO MAQUINAS VALUES('Maquina 03', 12, 12.45);
+
+DELETE FROM MAQUINAS WHERE DIA = 11 OR DIA = 12
+
